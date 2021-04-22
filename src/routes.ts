@@ -4,6 +4,6 @@ const routes = Router();
 
 const settingsController = new SettingsController();
 
-routes.post("/settings", async (request, response) => {});
-
+// routes.post("/settings", async (request, response) => {});
+routes.post("/settings", settingsController.create);
 export { routes };

@@ -1,7 +1,7 @@
 import { table } from "node:console";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateSetings1619052529990 implements MigrationInterface {
+export class CreateSettings1619052529990 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
