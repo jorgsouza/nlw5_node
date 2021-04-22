@@ -28,5 +28,4 @@ class Setting {
     if (!this.id) this.id = uuidV4();
   }
 }
-
 export { Setting };
