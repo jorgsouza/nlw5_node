@@ -1,8 +1,8 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryColumn,
-  CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
@@ -28,4 +28,5 @@ class Setting {
     if (!this.id) this.id = uuidV4();
   }
 }
+
 export { Setting };

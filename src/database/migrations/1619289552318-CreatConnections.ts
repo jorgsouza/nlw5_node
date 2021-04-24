@@ -30,7 +30,7 @@ export class CreatConnections1619289552318 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "cretaed_at",
+            name: "created_at",
             type: "timestamp",
             default: "now()",
           },
@@ -47,11 +47,11 @@ export class CreatConnections1619289552318 implements MigrationInterface {
       "connections",
       new TableForeignKey({
         name: "FKConnectionUser",
-        referencedTableName: "connections",
+        referencedTableName: "users",
         referencedColumnNames: ["id"],
         columnNames: ["user_id"],
         onDelete: "SET NULL",
-        onUpdate: "SET NULL",
+        onUpdate: "CASCADE",
       })
     );
   }
