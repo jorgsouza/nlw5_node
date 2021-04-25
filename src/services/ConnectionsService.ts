@@ -1,6 +1,5 @@
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, Repository } from "typeorm";
 import { Connection } from "../entities/Connection";
-
 import { ConnectionsRepository } from "../repositories/ConnectionsRepository";
 
 interface IConnectionCreate {
@@ -11,7 +10,7 @@ interface IConnectionCreate {
 }
 
 class ConnectionsService {
-  private connectionsRepository: ConnectionsRepository;
+  private connectionsRepository: Repository<Connection>;
 
   constructor() {
     this.connectionsRepository = getCustomRepository(ConnectionsRepository);
@@ -26,19 +25,21 @@ class ConnectionsService {
     });
 
     await this.connectionsRepository.save(connection);
+
+    return connection;
   }
 
   async findByUserId(user_id: string) {
-    const connection = this.connectionsRepository.findOne({ user_id });
+    const connection = await this.connectionsRepository.findOne({
+      user_id,
+    });
 
     return connection;
   }
 
   async findAllWithoutAdmin() {
-    const connections = this.connectionsRepository.find({
-      where: {
-        admin_id: null,
-      },
+    const connections = await this.connectionsRepository.find({
+      where: { admin_id: null },
       relations: ["user"],
     });
 
@@ -46,7 +47,9 @@ class ConnectionsService {
   }
 
   async findBySocketID(socket_id: string) {
-    const connection = this.connectionsRepository.findOne({ socket_id });
+    const connection = await this.connectionsRepository.findOne({
+      socket_id,
+    });
 
     return connection;
   }
@@ -58,6 +61,16 @@ class ConnectionsService {
       .set({ admin_id })
       .where("user_id = :user_id", {
         user_id,
+      })
+      .execute();
+  }
+
+  async deleteBySocketId(socket_id: string) {
+    await this.connectionsRepository
+      .createQueryBuilder()
+      .delete()
+      .where("socket_id = :socket_id", {
+        socket_id,
       })
       .execute();
   }
